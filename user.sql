@@ -1,4 +1,3 @@
--- USER INSERTS
 INSERT INTO Spring26_S008_T3_USER VALUES (1, 'huffmanjessica', 'ufrazier@example.com', DATE '1987-12-09', 'Other', 'Australia', DATE '2024-05-13', 'Free');
 INSERT INTO Spring26_S008_T3_USER VALUES (2, 'sramachandran', 'sahnimichael@example.net', DATE '1985-05-02', 'Other', 'India', DATE '2023-11-08', 'Premium');
 INSERT INTO Spring26_S008_T3_USER VALUES (3, 'shaun46', 'christopherpalmer@example.net', DATE '2005-02-25', 'Female', 'United States', DATE '2025-01-01', 'Free');
