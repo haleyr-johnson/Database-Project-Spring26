@@ -9,9 +9,9 @@ Designed using an EER model and mapped to a relational schema.
 ---
 
 ## Database Design
-[Phase 1 Document](./team3_phase1_FINAL_REVISED.docx)
-[EER Diagram](./EER./Diagram_FINAL_REVISED.pdf)
-[Relational Schema](./Relational_Schema-FINAL.pdf)
+[Phase 1 Document](./Phase%201/team3_phase1_FINAL_REVISED.docx)
+[EER Diagram](./Phase%202/EER%20Diagram_FINAL_REVISED.pdf)
+[Relational Schema](./Phase%203/Relational_Schema-FINAL.pdf)
 
 ### Entity Structure
 
