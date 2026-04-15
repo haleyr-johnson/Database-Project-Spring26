@@ -48,7 +48,7 @@ Create Table Spring26_S008_T3_FOLLOWS(
     PRIMARY KEY (Follower_ID, Following_ID),
     Foreign KEY (Follower_ID) REFERENCES Spring26_S008_T3_USER(User_ID),
     Foreign KEY (Following_ID) REFERENCES Spring26_S008_T3_USER(User_ID
-)
+);
 
 Create Table Spring26_S008_T3_WATCH_LOG (
     Log_ID NUMBER PRIMARY KEY, User_ID NUMBER, Show_ID NUMBER, Season_Number NUMBER, Episode_Number NUMBER, Watch_Date DATE, Watch_Type VARCHAR2(200), Rating NUMBER,
