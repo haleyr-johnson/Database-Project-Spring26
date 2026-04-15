@@ -1,3 +1,4 @@
+SET DEFINE OFF;
 -- USERS --
 INSERT INTO Spring26_S008_T3_USER VALUES (1000, 'william11', 'william11@gmail.com', DATE '2003-04-22', 'Male', 'Australia', DATE '2023-07-22', 'Premium');
 INSERT INTO Spring26_S008_T3_USER VALUES (1001, 'nlane', 'nlane@yahoo.co.uk', DATE '1984-12-05', 'Male', 'United Kingdom', DATE '2024-10-04', 'Premium');
