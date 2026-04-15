@@ -22,7 +22,6 @@ Create Table Spring26_S008_T3_TV_SHOW_PLATFORM (
     Show_ID NUMBER, Platform VARCHAR2(200), 
     PRIMARY KEY (Show_ID, Platform),
     Foreign KEY (Show_ID) REFERENCES Spring26_S008_T3_TV_SHOW (Show_ID)
-
 );
 
 Create Table Spring26_S008_T3_SEASON (
