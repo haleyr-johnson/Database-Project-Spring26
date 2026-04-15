@@ -57,16 +57,23 @@ Create Table Spring26_S008_T3_WATCH_LOG (
 );
 
 Create Table Spring26_S008_T3_REVIEW (
-    Log_ID NUMBER, Review_ID NUMBER UNIQUE, User_ID NUMBER, Review_Text VARCHAR2(200), Review_DATE DATE,
+    Log_ID NUMBER,
+    Review_ID NUMBER UNIQUE,
+    User_ID NUMBER,
+    Review_Text VARCHAR2(200),
+    Review_DATE DATE,
     PRIMARY KEY (Log_ID, Review_ID),
     Foreign KEY (Log_ID) REFERENCES Spring26_S008_T3_WATCH_LOG(Log_ID),
     Foreign KEY (User_ID) REFERENCES Spring26_S008_T3_USER(User_ID)
 );
 
 Create Table Spring26_S008_T3_REVIEW_INTERACTION (
-    Review_ID NUMBER, Interaction_ID NUMBER, User_ID NUMBER, Interaction_Date DATE, 
-    PRIMARY KEY (Review_ID, Interaction_ID), 
-    Foreign KEY (Review_ID) REFERENCES Spring26_S008_T3_REVIEW (Log_ID, Review_ID),
+    Review_ID NUMBER,
+    Interaction_ID NUMBER,
+    User_ID NUMBER,
+    Interaction_Date DATE, 
+    PRIMARY KEY (Review_ID, Interaction_ID),
+    Foreign KEY (Review_ID) REFERENCES Spring26_S008_T3_REVIEW (Review_ID),
     Foreign KEY (User_ID ) REFERENCES Spring26_S008_T3_USER(User_ID)
 );
 
