@@ -1,5 +1,12 @@
 Create Table Spring26_S008_T3_USER (
-    User_ID NUMBER PRIMARY KEY, Username VARCHAR2(200) UNIQUE, Email VARCHAR2(200), DOB VARCHAR2(200), Gender VARCHAR2(200), Location VARCHAR2(200), Creation_Date VARCHAR2(200), Membership VARCHAR2(200)
+    User_ID NUMBER PRIMARY KEY,
+    Username VARCHAR2(200) UNIQUE,
+    Email VARCHAR2(200),
+    DOB DATE,
+    Gender VARCHAR2(200),
+    Location VARCHAR2(200),
+    Creation_Date DATE,
+    Membership VARCHAR2(200)
 );
 
 Create Table Spring26_S008_T3_TV_SHOW (
