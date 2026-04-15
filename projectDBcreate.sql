@@ -47,7 +47,7 @@ Create Table Spring26_S008_T3_FOLLOWS(
     Follower_ID NUMBER, Following_ID NUMBER, 
     PRIMARY KEY (Follower_ID, Following_ID),
     Foreign KEY (Follower_ID) REFERENCES Spring26_S008_T3_USER(User_ID),
-    Foreign KEY (Following_ID) REFERENCES Spring26_S008_T3_USER(User_ID
+    Foreign KEY (Following_ID) REFERENCES Spring26_S008_T3_USER(User_ID)
 );
 
 Create Table Spring26_S008_T3_WATCH_LOG (
@@ -57,8 +57,7 @@ Create Table Spring26_S008_T3_WATCH_LOG (
 );
 
 Create Table Spring26_S008_T3_REVIEW (
-    Log_ID NUMBER, Review_ID NUMBER, User_ID NUMBER, Review_Text VARCHAR2(200), Review_DATE DATE,
-    PRIMARY KEY (Log_ID, Review_ID),
+    Log_ID NUMBER, PRIMARY KEY Review_ID NUMBER, User_ID NUMBER, Review_Text VARCHAR2(200), Review_DATE DATE,
     Foreign KEY (Log_ID) REFERENCES Spring26_S008_T3_WATCH_LOG(Log_ID),
     Foreign KEY (User_ID) REFERENCES Spring26_S008_T3_USER(User_ID)
 );
