@@ -3,7 +3,7 @@ DROP TABLE Spring26_S008_T3_LIKE cascade constraints;
 DROP TABLE Spring26_S008_T3_REVIEW_INTERACTION cascade constraints;
 DROP TABLE Spring26_S008_T3_REVIEW cascade constraints;
 DROP TABLE Spring26_S008_T3_FOLLOWS cascade constraints;
-DROP TABLE Spring26_S008_T3_WATCHLOG cascade constraints;
+DROP TABLE Spring26_S008_T3_WATCH_LOG cascade constraints;
 DROP TABLE Spring26_S008_T3_WATCHLIST cascade constraints;
 DROP TABLE Spring26_S008_T3_EPISODE cascade constraints;
 DROP TABLE Spring26_S008_T3_SEASON cascade constraints;
