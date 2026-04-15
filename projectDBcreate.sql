@@ -1,5 +1,5 @@
 Create Table Spring26_S008_T3_USER (
-    User_ID NUMBER PRIMARY KEY, Username VARCHAR2(200) UNIQUE, Email VARCHAR2(200), DOB DATE, Gender VARCHAR2(200), Location VARCHAR2(200), Creation_Date DATE, Membership VARCHAR2(200)
+    User_ID NUMBER PRIMARY KEY, Username VARCHAR2(200) UNIQUE, Email VARCHAR2(200), DOB VARCHAR2(200), Gender VARCHAR2(200), Location VARCHAR2(200), Creation_Date VARCHAR2(200), Membership VARCHAR2(200)
 );
 
 Create Table Spring26_S008_T3_TV_SHOW (
@@ -31,13 +31,13 @@ Create Table Spring26_S008_T3_SEASON (
 );
 
 Create Table Spring26_S008_T3_EPISODE (
-    Show_ID  NUMBER, Season_Number NUMBER, Episode_Number NUMBER, Title VARCHAR2(200), Runtime NUMBER, Air_Date DATE,
+    Show_ID  NUMBER, Season_Number NUMBER, Episode_Number NUMBER, Title VARCHAR2(200), Runtime NUMBER, Air_Date VARCHAR2(200),
     PRIMARY KEY (Show_ID, Season_Number, Episode_Number),
     Foreign KEY (Show_ID, Season_Number) REFERENCES Spring26_S008_T3_SEASON(Show_ID,Season_Number)
 );
 
 Create Table Spring26_S008_T3_WATCHLIST (
-    Watchlist_ID NUMBER PRIMARY KEY, User_ID NUMBER, Show_ID NUMBER, Added_Date DATE, 
+    Watchlist_ID NUMBER PRIMARY KEY, User_ID NUMBER, Show_ID NUMBER, Added_Date VARCHAR2(200), 
     Foreign KEY (User_ID) REFERENCES Spring26_S008_T3_USER(User_ID),
     Foreign KEY(Show_ID) REFERENCES Spring26_S008_T3_TV_SHOW(Show_ID)
 );
@@ -50,7 +50,7 @@ Create Table Spring26_S008_T3_FOLLOWS (
 );
 
 Create Table Spring26_S008_T3_WATCH_LOG (
-    Log_ID NUMBER PRIMARY KEY, User_ID NUMBER, Show_ID NUMBER, Season_Number NUMBER, Episode_Number NUMBER, Watch_Date DATE, Watch_Type VARCHAR2(200), Rating NUMBER,
+    Log_ID NUMBER PRIMARY KEY, User_ID NUMBER, Show_ID NUMBER, Season_Number NUMBER, Episode_Number NUMBER, Watch_Date VARCHAR2(200), Watch_Type VARCHAR2(200), Rating NUMBER,
     Foreign KEY (User_ID) REFERENCES Spring26_S008_T3_USER(User_ID),
     Foreign KEY (Show_ID, Season_Number, Episode_Number) REFERENCES Spring26_S008_T3_EPISODE(Show_ID, Season_Number, Episode_Number)
 );
@@ -60,7 +60,7 @@ Create Table Spring26_S008_T3_REVIEW (
     Review_ID NUMBER UNIQUE,
     User_ID NUMBER,
     Review_Text VARCHAR2(200),
-    Review_DATE DATE,
+    Review_DATE VARCHAR2(200),
     PRIMARY KEY (Log_ID, Review_ID),
     Foreign KEY (Log_ID) REFERENCES Spring26_S008_T3_WATCH_LOG(Log_ID),
     Foreign KEY (User_ID) REFERENCES Spring26_S008_T3_USER(User_ID)
@@ -70,7 +70,7 @@ Create Table Spring26_S008_T3_REVIEW_INTERACTION (
     Review_ID NUMBER,
     Interaction_ID NUMBER,
     User_ID NUMBER,
-    Interaction_Date DATE, 
+    Interaction_Date VARCHAR2(200), 
     PRIMARY KEY (Review_ID, Interaction_ID),
     Foreign KEY (Review_ID) REFERENCES Spring26_S008_T3_REVIEW (Review_ID),
     Foreign KEY (User_ID ) REFERENCES Spring26_S008_T3_USER(User_ID)
