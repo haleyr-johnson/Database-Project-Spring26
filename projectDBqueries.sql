@@ -76,3 +76,20 @@ JOIN hxj3946.Spring26_S008_T3_REVIEW r ON w.Log_ID = r.Log_ID
 LEFT JOIN hxj3946.Spring26_S008_T3_REVIEW_INTERACTION i ON r.Review_ID = i.Review_ID -- I used LEFT JOIN to make sure as long as it has one type of engagement it counts
 GROUP BY ROLLUP(ep.Show_ID, ep.Season_Number)
 ORDER BY Show_ID, Season_Number DESC;
+
+
+-- Query 3:
+-- What TV SHOWS and SEASONS have the highest average ratings across shows and seasons with subtotals.
+-- Measured by the average ratings are provided by the watch logs.
+-- Results are grouped by show and season along with CUBE
+
+-- Expected Output:
+-- 
+--  rows selected.
+SELECT
+    x.Show_ID, x.Season_Number, 
+    AVG(x.Rating) RAvg
+FROM Spring26_S008_T3_WATCH_LOG x
+GROUP BY CUBE (x.Show_ID, x.Season_Number)
+ORDER BY x.Show_ID, x.Season_Number
+
