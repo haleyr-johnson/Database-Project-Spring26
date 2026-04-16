@@ -140,11 +140,19 @@ ADD CONSTRAINT chk_rating CHECK (Rating >= 1.0 AND Rating <= 5.0);
 ALTER TABLE Spring26_S008_T3_TV_SHOW 
 ADD CONSTRAINT chk_status CHECK (Status IN ('Ongoing', 'Completed', 'Upcoming', 'Canceled'));
 
--- Ensure Account_Creation_Date isn't in the future
-ALTER TABLE Spring26_S008_T3_USER 
-ADD CONSTRAINT chk_creation_date CHECK (Account_Creation_Date <= SYSDATE);
-
 -- TRIGGERS
+-- Ensure Account_Creation_Date isn't in the future
+ACREATE OR REPLACE TRIGGER trg_check_creation_date
+BEFORE INSERT OR UPDATE ON Spring26_S008_T3_USER
+FOR EACH ROW
+BEGIN
+    IF :NEW.Account_Creation_Date > SYSDATE THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Account creation date cannot be in the future.');
+    END IF;
+END;
+/
+
+
 -- Prevents a user from following themselves
 CREATE OR REPLACE TRIGGER trg_prevent_self_follow
 BEFORE INSERT OR UPDATE ON Spring26_S008_T3_FOLLOWS
