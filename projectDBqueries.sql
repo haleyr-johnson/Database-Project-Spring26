@@ -179,7 +179,8 @@ SELECT distinct c.User_ID
 FROM Spring26_S008_T3_WATCH_LOG c
 WHERE NOT EXISTS(
 
-    Select DISTINCT d.Season_Number
+    --Select DISTINCT d.Season_Number
+    SELECT 1
     FROM Spring26_S008_T3_WATCH_LOG d
     WHERE d.Show_ID = c.Show_ID
 
