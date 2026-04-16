@@ -200,28 +200,14 @@ ORDER BY Exclusive_Rating DESC;
 
 
 -- Query 6:
--- Which users have watched every episode of at least one season of a TV show? Output the user_id and username.
--- Uses division by identifying users for whom there does not exist and episode in the Episode table (for a specific season) that they have not logged in their Watch_Log.
+-- Which users have watched every episode of at least one season of any TV show? Output the user_id and username.
+-- Uses division by identifying users for whom there does not exist and episode in the Episode table that they have not logged in their Watch_Log.
 -- 
 -- Expected Output:
 -- 
 
-SELECT distinct w.User_ID
-FROM Spring26_S008_T3_WATCH_LOG w
-WHERE NOT EXISTS(
-    SELECT 1
-    FROM Spring26_S008_T3_EPISODE e
-    WHERE NOT EXISTS (
-        SELECT 1
-        FROM Spring26_S008_T3_WATCH_LOG w2
-        WHERE w2.User_ID = w.User_ID
-            AND w2.Show_ID = e.Show_ID
-            AND w2.Season_Number = e.Season_Number
-            AND w2.Episode_Number = e.Episode_Number
-    )
-);
+COLUMN USERNAME FORMAT A20
 
--- TESTINGG
 SELECT DISTINCT u.User_ID, u.Username
 FROM Spring26_S008_T3_USER u
 WHERE EXISTS (
@@ -242,4 +228,3 @@ WHERE EXISTS (
           )
     )
 );
-
