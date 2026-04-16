@@ -91,7 +91,7 @@ SELECT
     AVG(y.Rating) as RAvg
     Count(*) as RCount
 FROM Spring26_S008_T3_WATCH_LOG y
-FROM Spring26_S008_T3_TV_SHOW x
+JOIN Spring26_S008_T3_TV_SHOW x
     on x.Show_ID =y.Show_ID
 GROUP BY CUBE (x.Show_ID, y.Season_Number, x.Title)
 HAVING AVG(y.Rating) >=4 AND COUNT(*)>4
@@ -178,12 +178,15 @@ ORDER BY Exclusive_Rating DESC;
 SELECT
 FROM Spring26_S008_T3_WATCH_LOG c
 WHERE NOT EXISTS(
+
     Select DISTINCT d.Season_Number
     FROM Spring26_S008_T3_WATCH_LOG d
     WHERE d.Show_ID = c.Show_ID
+
     AND NOT EXISTS(
+        SELECT 1
         FROM Spring26_S008_T3_WATCH_LOG e
-        WHERE e.User_ID = e.User_ID AND e.Show_ID = c.Show_ID AND e.Season_Number=c.Season_Number
+        WHERE e.User_ID = e.User_ID AND e.Show_ID = d.Show_ID AND e.Season_Number=d.Season_Number
     )
 );
 
