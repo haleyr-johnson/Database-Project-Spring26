@@ -142,7 +142,7 @@ ADD CONSTRAINT chk_status CHECK (Status IN ('Ongoing', 'Completed', 'Upcoming', 
 
 -- TRIGGERS
 -- Ensure Account_Creation_Date isn't in the future
-ACREATE OR REPLACE TRIGGER trg_check_creation_date
+CREATE OR REPLACE TRIGGER trg_check_creation_date
 BEFORE INSERT OR UPDATE ON Spring26_S008_T3_USER
 FOR EACH ROW
 BEGIN
