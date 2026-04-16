@@ -94,7 +94,7 @@ FROM Spring26_S008_T3_WATCH_LOG y
 JOIN Spring26_S008_T3_TV_SHOW x
     ON x.Show_ID =y.Show_ID
 GROUP BY CUBE (x.Show_ID, y.Season_Number, x.Title)
-HAVING AVG(y.Rating) >=4 AND COUNT(*)>3
+HAVING AVG(y.Rating) >=4 AND COUNT(*)>1
 ORDER BY RAvg DESC;
 
 
