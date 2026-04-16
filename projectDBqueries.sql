@@ -92,7 +92,29 @@ ORDER BY Show_ID ASC, Season_Number ASC;
 --
 -- Expected Output:
 -- 
---  rows selected.
+-- TITLE                                    SHOW_ID  SEASON_NUMBER  AVG_RATING  RATING_COUNT
+-- ------------------------------------  ----------  -------------  ----------  ------------
+-- Battlestar Galactica                         166              3        4.45             2
+--                                              166              3        4.45             2
+-- Battlestar Galactica                         166                       4.45             2
+--                                              166                       4.45             2
+--                                              179              2        4.45             2
+-- Battlestar Galactica                                          3        4.45             2
+-- Battlestar Galactica                                                   4.45             2
+-- The Wire                                                      2        4.45             2
+-- The Wire                                     179              2        4.45             2
+-- Fringe                                       158              1        4.43             3
+-- Fringe                                       158                       4.43             3
+--                                              158                       4.43             3
+-- Fringe                                                        1        4.43             3
+-- Fringe                                                                 4.43             3
+--                                              158              1        4.43             3
+-- The Shield                                                    2        4.25             2
+--                                              663              2        4.25             2
+-- The Shield                                   663              2        4.25             2
+-- 
+-- 18 rows selected.
+
 SELECT
     x.Title, x.Show_ID, y.Season_Number, 
     ROUND(AVG(y.Rating), 2) as Avg_Rating,
@@ -177,28 +199,47 @@ GROUP BY s.Title, p.Platform
 ORDER BY Exclusive_Rating DESC;
 
 
-
-
 -- Query 6:
--- What
-
+-- Which users have watched every episode of at least one season of a TV show? Output the user_id and username.
+-- Uses division by identifying users for whom there does not exist and episode in the Episode table (for a specific season) that they have not logged in their Watch_Log.
+-- 
 -- Expected Output:
 -- 
---  rows selected.
 
-SELECT distinct c.User_ID
-FROM Spring26_S008_T3_WATCH_LOG c
+SELECT distinct w.User_ID
+FROM Spring26_S008_T3_WATCH_LOG w
 WHERE NOT EXISTS(
-
-    --Select DISTINCT d.Season_Number
     SELECT 1
-    FROM Spring26_S008_T3_WATCH_LOG d
-    WHERE d.Show_ID = c.Show_ID
-
-    AND NOT EXISTS(
+    FROM Spring26_S008_T3_EPISODE e
+    WHERE NOT EXISTS (
         SELECT 1
-        FROM Spring26_S008_T3_WATCH_LOG e
-        WHERE e.User_ID = c.User_ID AND e.Show_ID = d.Show_ID AND e.Season_Number=d.Season_Number
+        FROM Spring26_S008_T3_WATCH_LOG w2
+        WHERE w2.User_ID = w.User_ID
+            AND w2.Show_ID = e.Show_ID
+            AND w2.Season_Number = e.Season_Number
+            AND w2.Episode_Number = e.Episode_Number
+    )
+);
+
+-- TESTINGG
+SELECT DISTINCT u.User_ID, u.Username
+FROM Spring26_S008_T3_USER u
+WHERE EXISTS (
+    SELECT 1
+    FROM Spring26_S008_T3_EPISODE e
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM Spring26_S008_T3_EPISODE e2
+        WHERE e2.Show_ID = e.Show_ID
+          AND e2.Season_Number = e.Season_Number
+          AND NOT EXISTS (
+              SELECT 1
+              FROM Spring26_S008_T3_WATCH_LOG w
+              WHERE w.User_ID = u.User_ID
+                AND w.Show_ID = e2.Show_ID
+                AND w.Season_Number = e2.Season_Number
+                AND w.Episode_Number = e2.Episode_Number
+          )
     )
 );
 
