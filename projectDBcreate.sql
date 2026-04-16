@@ -122,3 +122,32 @@ Create Table Spring26_S008_T3_COMMENT (
     PRIMARY KEY (Review_ID, Interaction_ID),
     Foreign KEY (Review_ID, Interaction_ID) REFERENCES Spring26_S008_T3_REVIEW_INTERACTION (Review_ID, Interaction_ID)
 );
+
+-- ALTER TABLES
+-- Derived attribute Age
+ALTER TABLE Spring26_S008_T3_USER 
+ADD (Age AS (FLOOR(MONTHS_BETWEEN(SYSDATE, DOB) / 12)));
+
+-- Ensure Rating is between 1.0 and 5.0
+ALTER TABLE Spring26_S008_T3_WATCH_LOG 
+ADD CONSTRAINT chk_rating CHECK (Rating >= 1.0 AND Rating <= 5.0);
+
+-- Ensure valid show status type
+ALTER TABLE Spring26_S008_T3_TV_SHOW 
+ADD CONSTRAINT chk_status CHECK (Status IN ('Ongoing', 'Completed', 'Upcoming', 'Canceled'));
+
+-- Ensure Account_Creation_Date isn't in the future
+ALTER TABLE Spring26_S008_T3_USER 
+ADD CONSTRAINT chk_creation_date CHECK (Account_Creation_Date <= SYSDATE);
+
+-- TRIGGERS
+-- Prevents a user from following themselves
+CREATE OR REPLACE TRIGGER trg_prevent_self_follow
+BEFORE INSERT OR UPDATE ON Spring26_S008_T3_FOLLOWS
+FOR EACH ROW
+BEGIN
+    IF :NEW.Follower_ID = :NEW.Following_ID THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Logic Error: A user cannot follow themselves.');
+    END IF;
+END;
+/
