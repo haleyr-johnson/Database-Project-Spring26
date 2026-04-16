@@ -85,47 +85,45 @@ ORDER BY Show_ID ASC, Season_Number ASC;
 
 
 -- Query 3:
--- Which TV SHOWS and SEASONS have the highest average user ratings across shows and seasons,
--- including subtotals and aggregates.
--- Measured by the average ratings provided by the watch log entries.
--- Results are grouped by show and season along with CUBE
+-- How do user ratings vary across different membership types (free/premium) and gender demographics?
+-- Are there specific combinations that have significantly higher or lower ratings?
+-- 
+-- Results are grouped by membership type and gender using CUBE to include:
+--    - membership type and gender intersections
+--    - membership level subtotals across all genders
+--    - gender level subtotals across all membership types
+--    - grand total across all users and membership types
 --
 -- Expected Output:
--- 
--- TITLE                                    SHOW_ID  SEASON_NUMBER  AVG_RATING  RATING_COUNT
--- ------------------------------------  ----------  -------------  ----------  ------------
--- Battlestar Galactica                         166              3        4.45             2
---                                              166              3        4.45             2
--- Battlestar Galactica                         166                       4.45             2
---                                              166                       4.45             2
---                                              179              2        4.45             2
--- Battlestar Galactica                                          3        4.45             2
--- Battlestar Galactica                                                   4.45             2
--- The Wire                                                      2        4.45             2
--- The Wire                                     179              2        4.45             2
--- Fringe                                       158              1        4.43             3
--- Fringe                                       158                       4.43             3
---                                              158                       4.43             3
--- Fringe                                                        1        4.43             3
--- Fringe                                                                 4.43             3
---                                              158              1        4.43             3
--- The Shield                                                    2        4.25             2
---                                              663              2        4.25             2
--- The Shield                                   663              2        4.25             2
--- 
--- 18 rows selected.
+--
+-- MEMBERSHIP_TYPE       GENDER           TOTAL_RATINGS  AVG_RATING
+-- --------------------  ---------------  -------------  ----------
+-- Free                  Female                      15        2.79     -- free and female
+-- Free                  Male                        20         3.3     -- free and male
+-- Free                  Other                       18        3.79     -- free and other
+-- Free                                              53        3.32     -- total of all genders with free tier
+-- Premium               Female                      21        3.07   -- premium and female
+-- Premium               Male                        23        3.13   -- premium and male  
+-- Premium               Other                       18        3.41   -- premium and other
+-- Premium                                           62        3.19   -- total of all genders with premium tier
+--                       Female                      36        2.95     -- total female any tier
+--                       Male                        43        3.21     -- total male any tier
+--                       Other                       36         3.6     -- total other any tier
+--                                                  115        3.25   -- grand total of any gender, any tier
+--
+-- 12 rows selected.
 
-SELECT
-    x.Title, x.Show_ID, y.Season_Number, 
-    ROUND(AVG(y.Rating), 2) as Avg_Rating,
-    Count(*) as Rating_Count
-FROM Spring26_S008_T3_WATCH_LOG y
-JOIN Spring26_S008_T3_TV_SHOW x
-    ON x.Show_ID = y.Show_ID
-GROUP BY CUBE (x.Show_ID, y.Season_Number, x.Title)
-HAVING AVG(y.Rating) >= 4 AND COUNT(*) > 1
-ORDER BY Avg_Rating DESC;
+COLUMN Membership_Type FORMAT A20
+COLUMN Gender FORMAT A15
 
+SELECT u.Membership_Type, u.Gender,
+       COUNT(*) as Total_Ratings,
+       ROUND(AVG(w.Rating), 2) as Avg_Rating
+FROM Spring26_S008_T3_USER u
+JOIN Spring26_S008_T3_WATCH_LOG w ON u.User_ID = w.User_ID
+GROUP BY CUBE(u.Membership_Type, u.Gender)
+ORDER BY u.Membership_Type, u.Gender;
+    
 
 -- Query 4:
 -- What are the top 10 highest rated shows from countries that start with "United" (United States or the United Kingdom in our sample data), that did not begin airing until after 2010?
@@ -137,6 +135,7 @@ ORDER BY Avg_Rating DESC;
 --
 -- TITLE                                 COUNTRY          START_YEAR  AVG_TOP_RATING
 -- ------------------------------------  ---------------  ----------  --------------
+-- Game of Thrones                       United States          2011            3.73
 -- Banshee                               United States          2013            3.68
 -- The Americans                         United States          2013            3.67
 -- Gravity Falls                         United States          2012             3.5
@@ -146,7 +145,6 @@ ORDER BY Avg_Rating DESC;
 -- Line of Duty                          United Kingdom         2012             3.1
 -- Person of Interest                    United States          2011            2.85
 -- Peaky Blinders                        United Kingdom         2013             2.3
--- Game of Thrones                       United States          2011             2.1
 --
 -- 10 rows selected.
 
@@ -166,12 +164,14 @@ FETCH FIRST 10 ROWS ONLY;
 -- Query 5:
 -- What are the ratings (in descending order) of shows that only air on only 1 platform?
 -- Selected shows that only once on the platform relation and averaged out the ratings from watch log
+--
 -- Expected Output:
-
+--
 -- TITLE                                 PLATFORM         EXCLUSIVE_RATING
 -- ------------------------------------  ---------------  ----------------
 -- Battlestar Galactica                  Amazon Prime                 4.45
 -- Fringe                                Hulu                         4.43
+-- Death Note                            HBO Max                       4.2
 -- The Americans                         Hulu                         3.67
 -- Dark Angel                            Disney+                       3.6
 -- The Shield                            Amazon Prime                 3.53
@@ -179,8 +179,8 @@ FETCH FIRST 10 ROWS ONLY;
 -- Person of Interest                    Disney+                      2.85
 -- The X-Files                           Disney+                      2.15
 -- The Sopranos                          HBO Max                       1.1
--- 
--- 9 rows selected.
+--
+-- 10 rows selected.
 
 COLUMN TITLE FORMAT A36
 COLUMN PLATFORM FORMAT A15
@@ -205,6 +205,11 @@ ORDER BY Exclusive_Rating DESC;
 -- 
 -- Expected Output:
 -- 
+--    USER_ID  USERNAME
+-- ----------  --------------------
+--       1006  bwilliams
+--       1023  zacharyrodriguez
+--       1031  pyang
 
 COLUMN USERNAME FORMAT A20
 
