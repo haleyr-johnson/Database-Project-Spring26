@@ -107,33 +107,37 @@ ORDER BY RAvg DESC;
 
 -- Query 4:
 -- What are the top 10 highest rated shows in the United States or the United Kingdom that did not begin airing until after 2010?
--- Joined the Shows and WatchLog tables based on Show_ID.
+-- Joined the Shows and Watch_Log tables based on Show_ID.
 -- Grouped by shows whose country has "United" in the name and it starts after 2010. 
 -- Fetched the top 10 rows
 
 -- Expected output:
--- TITLE				                  COUNTRY					                START_YEAR  TOP_RATING
--- ------------------------------------  ----------------------------------------	----------  ----------
--- Banshee 			                  United States				                        2013	   3.675
--- The Americans			              United States				                    2013    3.66666667
--- Gravity Falls			              United States				                    2012	    3.5
--- Better Call Saul		              United States				                        2015    3.28333333
--- Shameless			                  United States				                    2011	    3.2
--- Rick and Morty			              United States				                    2013    3.13333333
--- Line of Duty			              United Kingdom				                    2012	    3.1
--- Person of Interest		              United States				                    2011	   2.85
--- Peaky Blinders			              United Kingdom				                2013	   2.3
--- Game of Thrones 		              United States				                        2011	   2.1
-
+--
+-- TITLE                                 COUNTRY          START_YEAR  TOP_RATING
+-- ------------------------------------  ---------------  ----------  ----------
+-- Banshee                               United States          2013        3.68
+-- The Americans                         United States          2013        3.67
+-- Gravity Falls                         United States          2012         3.5
+-- Better Call Saul                      United States          2015        3.28
+-- Shameless                             United States          2011         3.2
+-- Rick and Morty                        United States          2013        3.13
+-- Line of Duty                          United Kingdom         2012         3.1
+-- Person of Interest                    United States          2011        2.85
+-- Peaky Blinders                        United Kingdom         2013         2.3
+-- Game of Thrones                       United States          2011         2.1
+--
 -- 10 rows selected.
 
+COLUMN TITLE FORMAT A36
+COLUMN COUNTRY FORMAT A15
 
-SELECT s.Title, s.Country, s.Start_Year, AVG(w.Rating) as Top_Rating
-FROM Spring26_S008_T3_TV_SHOW s, Spring26_S008_T3_WATCH_LOG w
-WHERE s.Show_ID = w.Show_ID 
+SELECT s.Title, s.Country, s.Start_Year,
+       ROUND(AVG(w.Rating), 2) as Avg_Top_Rating
+FROM Spring26_S008_T3_TV_SHOW s
+JOIN Spring26_S008_T3_WATCH_LOG w ON s.Show_ID = w.Show_ID
+WHERE s.Country LIKE 'United%' AND s.Start_Year > 2010 AND w.Rating IS NOT NULL
 GROUP BY s.Title, s.Country, s.Start_Year
-HAVING s.Country Like 'United%' AND s.Start_Year > 2010
-ORDER BY Top_Rating DESC
+ORDER BY Avg_Top_Rating DESC
 FETCH FIRST 10 ROWS ONLY;
 
 
