@@ -44,7 +44,9 @@ ORDER BY Watchlist_Appearances DESC;
 
 -- Query 2:
 -- Which TV shows and seasons generate the highest levels of user engagement?
+-- Only include shows or seasons that have at least 1 review or interaction.
 -- Measured by the sum of the number of distinct reviews per episode and number of interactions (likes, comments) on those reviews.
+
 -- Results are grouped by show and season using ROLLUP to include:
 --   - season-level totals
 --   - show-level totals
@@ -54,10 +56,13 @@ ORDER BY Watchlist_Appearances DESC;
 
 -- SHOW_ID  SEASON_NUMBER  TOTAL_REVIEWS  TOTAL_INTERACTIONS  TOTAL_ENGAGEMENT
 -- -------  -------------  -------------  ------------------  ----------------
---   618           3               2               1                 3   -- season total
---   618           2               3               7                10
---   618           1               1               1                 2
---   618                           6               6                15   -- show total
+--     2           3               1               0                 1   -- ascending order
+--     2                           1               0                 1
+--   ...         ...             ...              ...              ...
+--   618           1               1               1                 2   
+--   618           2               3               7                10   -- season total
+--   618           3               2               1                 3
+--   618                           6               9                15   -- show total
 --   ...         ...              ...             ...              ...
 --                                50              50               100   -- grand total
 -- 65 rows selected.
@@ -75,7 +80,7 @@ JOIN hxj3946.Spring26_S008_T3_WATCH_LOG w ON ep.Show_ID = w.Show_ID
 JOIN hxj3946.Spring26_S008_T3_REVIEW r ON w.Log_ID = r.Log_ID
 LEFT JOIN hxj3946.Spring26_S008_T3_REVIEW_INTERACTION i ON r.Review_ID = i.Review_ID -- I used LEFT JOIN to make sure as long as it has one type of engagement it counts
 GROUP BY ROLLUP(ep.Show_ID, ep.Season_Number)
-ORDER BY Show_ID, Season_Number DESC;
+ORDER BY Show_ID ASC, Season_Number ASC;
 
 
 -- Query 3:
