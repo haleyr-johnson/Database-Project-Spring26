@@ -105,7 +105,7 @@ def safe_runtime(value):
     return str(value) if value else str(random.choice([22,30,45,60]))
 
 def safe_date(value):
-    return f"'{value}'" if value else f"'{fake.date_between(start_date='-20y', end_date='today')}'"
+    return value if value else fake.date_between(start_date='-20y', end_date='today')
 
 
 # GET POPULAR SHOWS
