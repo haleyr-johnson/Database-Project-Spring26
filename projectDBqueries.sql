@@ -87,12 +87,12 @@ ORDER BY Show_ID, Season_Number DESC;
 -- 
 --  rows selected.
 SELECT
-    x.Show_ID, y.Season_Number, x.Title
-    AVG(y.Rating) as RAvg
+    x.Title,x.Show_ID, y.Season_Number, 
+    AVG(y.Rating) as RAvg,
     Count(*) as RCount
 FROM Spring26_S008_T3_WATCH_LOG y
 JOIN Spring26_S008_T3_TV_SHOW x
-    on x.Show_ID =y.Show_ID
+    ON x.Show_ID =y.Show_ID
 GROUP BY CUBE (x.Show_ID, y.Season_Number, x.Title)
 HAVING AVG(y.Rating) >=4 AND COUNT(*)>4
 ORDER BY RAvg DESC;
@@ -159,7 +159,7 @@ FROM Spring26_S008_T3_TV_SHOW s, Spring26_S008_T3_TV_SHOW_PLATFORM p, Spring26_S
 WHERE s.Show_ID = w.Show_ID AND s.Show_ID = p.Show_ID AND s.Show_ID IN (
     SELECT show_ID 
     FROM Spring26_S008_T3_TV_SHOW_PLATFORM 
-    GROUP BY Show_ID 
+    GROUP BY Show_ID S
     HAVING Count(*) = 1
 )
 GROUP BY s.Title, p.Platform
@@ -175,7 +175,7 @@ ORDER BY Exclusive_Rating DESC;
 -- 
 --  rows selected.
 
-SELECT
+SELECT distinct c.User_ID
 FROM Spring26_S008_T3_WATCH_LOG c
 WHERE NOT EXISTS(
 
@@ -186,7 +186,7 @@ WHERE NOT EXISTS(
     AND NOT EXISTS(
         SELECT 1
         FROM Spring26_S008_T3_WATCH_LOG e
-        WHERE e.User_ID = e.User_ID AND e.Show_ID = d.Show_ID AND e.Season_Number=d.Season_Number
+        WHERE e.User_ID = c.User_ID AND e.Show_ID = d.Show_ID AND e.Season_Number=d.Season_Number
     )
 );
 
