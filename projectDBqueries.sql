@@ -93,3 +93,69 @@ FROM Spring26_S008_T3_WATCH_LOG x
 GROUP BY CUBE (x.Show_ID, x.Season_Number)
 ORDER BY x.Show_ID, x.Season_Number
 
+
+
+-- Query 4:
+-- What are the top 10 highest rated shows in the United States or the United Kingdom that did not begin airing until after 2010?
+-- Joined the Shows and WatchLog tables based on Show_ID.
+-- Grouped by shows whose country has "United" in the name and it starts after 2010. 
+-- Fetched the top 10 rows
+
+-- Expected output:
+-- TITLE				                  COUNTRY					                START_YEAR  TOP_RATING
+-- ------------------------------------  ----------------------------------------	----------  ----------
+-- Banshee 			                  United States				                        2013	   3.675
+-- The Americans			              United States				                    2013    3.66666667
+-- Gravity Falls			              United States				                    2012	    3.5
+-- Better Call Saul		              United States				                        2015    3.28333333
+-- Shameless			                  United States				                    2011	    3.2
+-- Rick and Morty			              United States				                    2013    3.13333333
+-- Line of Duty			              United Kingdom				                    2012	    3.1
+-- Person of Interest		              United States				                    2011	   2.85
+-- Peaky Blinders			              United Kingdom				                2013	   2.3
+-- Game of Thrones 		              United States				                        2011	   2.1
+
+-- 10 rows selected.
+
+
+SELECT s.Title, s.Country, s.Start_Year, AVG(w.Rating) as Top_Rating
+FROM Spring26_S008_T3_TV_SHOW s, Spring26_S008_T3_WATCH_LOG w
+WHERE s.Show_ID = w.Show_ID 
+GROUP BY s.Title, s.Country, s.Start_Year
+HAVING s.Country Like 'United%' AND s.Start_Year > 2010
+ORDER BY Top_Rating DESC
+FETCH FIRST 10 ROWS ONLY;
+
+
+
+-- Query 5:
+-- What are the ratings (in descending order) of shows that only air on only 1 platform?
+-- Selected shows that only once on the platform relation and averaged out the ratings from watch log
+-- Expected Output:
+
+-- TITLE				                  PLATFORM					                EXCLUSIVE_RATING
+-- ------------------------------------  ----------------------------------------	----------------
+-- Battlestar Galactica		          Amazon Prime					                        4.45
+-- Fringe				                  Hulu					                          4.43333333
+-- The Americans			              Hulu					                          3.66666667
+-- Dark Angel			                  Disney+						                         3.6
+-- The Shield			                  Amazon Prime					                       3.525
+-- Futurama			                  Disney+						                         3.5
+-- Person of Interest		              Disney+						                        2.85
+-- The X-Files			                  Disney+						                        2.15
+-- The Sopranos			              HBO Max						                         1.1
+
+-- 9 rows selected.
+
+
+
+SELECT s.Title, p.Platform, AVG(w.Rating) as Exclusive_Rating
+FROM Spring26_S008_T3_TV_SHOW s, Spring26_S008_T3_TV_SHOW_PLATFORM p, Spring26_S008_T3_WATCH_LOG w
+WHERE s.Show_ID = w.Show_ID AND s.Show_ID = p.Show_ID AND s.Show_ID IN (
+    SELECT show_ID 
+    FROM Spring26_S008_T3_TV_SHOW_PLATFORM 
+    GROUP BY Show_ID 
+    HAVING Count(*) = 1
+)
+GROUP BY s.Title, p.Platform
+ORDER BY Exclusive_Rating DESC;
