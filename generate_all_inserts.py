@@ -1,3 +1,4 @@
+# if you regenerate, make sure to remove '&' from inserts file.
 import requests
 import random
 from faker import Faker
@@ -16,6 +17,7 @@ episode_keys = []   # (show_id, season, episode)
 log_ids = []
 review_ids = []
 
+print("SET DEFINE OFF;");
 # -----------------
 # USERS
 # -----------------
