@@ -85,10 +85,11 @@ ORDER BY Show_ID ASC, Season_Number ASC;
 
 
 -- Query 3:
--- What TV SHOWS and SEASONS have the highest average ratings across shows and seasons with subtotals.
--- Measured by the average ratings are provided by the watch logs.
+-- Which TV SHOWS and SEASONS have the highest average user ratings across shows and seasons,
+-- including subtotals and aggregates.
+-- Measured by the average ratings provided by the watch log entries.
 -- Results are grouped by show and season along with CUBE
-
+--
 -- Expected Output:
 -- 
 --  rows selected.
