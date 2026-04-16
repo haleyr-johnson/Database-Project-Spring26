@@ -196,7 +196,7 @@ for show in shows:
             runtime = safe_runtime(ep["runtime"])
             airdate = safe_date(ep["airdate"])
 
-            print(f"""INSERT INTO Spring26_S008_T3_EPISODE VALUES ({show_id}, {season_num}, {ep_num}, {ep_title}, {runtime}, {airdate});""")
+            print(f"""INSERT INTO Spring26_S008_T3_EPISODE VALUES ({show_id}, {season_num}, {ep_num}, {ep_title}, {runtime}, DATE '{airdate}');""")
 
             episode_keys.append((show_id, season_num, ep_num))
 

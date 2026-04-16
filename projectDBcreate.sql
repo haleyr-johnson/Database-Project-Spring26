@@ -54,7 +54,7 @@ Create Table Spring26_S008_T3_EPISODE (
     Runtime NUMBER,
     Air_Date DATE,
     PRIMARY KEY (Show_ID, Season_Number, Episode_Number),
-    Foreign KEY (Show_ID, Season_Number) REFERENCES Spring26_S008_T3_SEASON(Show_ID,Season_Number)
+    Foreign KEY (Show_ID, Season_Number) REFERENCES Spring26_S008_T3_SEASON(Show_ID, Season_Number)
 );
 
 Create Table Spring26_S008_T3_WATCHLIST (
