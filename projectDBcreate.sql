@@ -127,7 +127,7 @@ Create Table Spring26_S008_T3_COMMENT (
 
 -- Ensure Rating is between 1.0 and 5.0
 ALTER TABLE Spring26_S008_T3_WATCH_LOG 
-ADD CONSTRAINT chk_rating CHECK (Rating >= 1.0 AND Rating <= 5.0);
+ADD CONSTRAINT chk_rating CHECK (Rating >= 0.0 AND Rating <= 5.0);
 
 -- Ensure valid show status type
 ALTER TABLE Spring26_S008_T3_TV_SHOW 
