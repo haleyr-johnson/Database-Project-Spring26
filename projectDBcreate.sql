@@ -124,13 +124,6 @@ Create Table Spring26_S008_T3_COMMENT (
 );
 
 -- ALTER TABLES
--- Derived attribute Age
-ALTER TABLE Spring26_S008_T3_USER 
-ADD (Age AS (FLOOR(MONTHS_BETWEEN(SYSDATE, DOB) / 12)));
-CREATE OR REPLACE VIEW Spring26_S008_T3_USER_WITH_AGE AS
-SELECT *, 
-       FLOOR(MONTHS_BETWEEN(SYSDATE, DOB) / 12) AS Age
-FROM Spring26_S008_T3_USER;
 
 -- Ensure Rating is between 1.0 and 5.0
 ALTER TABLE Spring26_S008_T3_WATCH_LOG 
@@ -141,6 +134,14 @@ ALTER TABLE Spring26_S008_T3_TV_SHOW
 ADD CONSTRAINT chk_status CHECK (Status IN ('Ongoing', 'Completed', 'Upcoming', 'Canceled'));
 
 -- TRIGGERS
+
+-- Derived Age attribute
+CREATE OR REPLACE VIEW Spring26_S008_T3_USER_VIEW AS
+SELECT 
+    U.*, 
+    FLOOR(MONTHS_BETWEEN(SYSDATE, DOB) / 12) AS Age
+FROM Spring26_S008_T3_USER U;
+
 -- Ensure Account_Creation_Date isn't in the future
 CREATE OR REPLACE TRIGGER trg_check_creation_date
 BEFORE INSERT OR UPDATE ON Spring26_S008_T3_USER
@@ -151,7 +152,6 @@ BEGIN
     END IF;
 END;
 /
-
 
 -- Prevents a user from following themselves
 CREATE OR REPLACE TRIGGER trg_prevent_self_follow
