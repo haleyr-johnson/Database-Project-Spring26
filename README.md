@@ -12,6 +12,7 @@ Designed using an EER model and mapped to a relational schema.
 [Phase 1 Document](./Phase%201/team3_phase1_FINAL_REVISED.docx)
 [EER Diagram](./Phase%202/EER%20Diagram_FINAL_REVISED.pdf)
 [Relational Schema](./Phase%203/Relational_Schema-FINAL.pdf)
+[PPT Presentation](./Phase%204/Team3-Konjeti-Johnson-Nguyen.pdf)
 
 ### Entity Structure
 
@@ -44,7 +45,7 @@ All relations in the final schema are normalized to **Boyce-Codd Normal Form (BC
 
 * Populates the database with realistic data
 * Data generated using Python and the Faker library
-* Includes ~40–50 rows per table
+* Includes at least 50~ rows per table
 
 ---
 
@@ -66,7 +67,7 @@ All relations in the final schema are normalized to **Boyce-Codd Normal Form (BC
 
 ---
 
-## How to Run
+## How to Run in sqlplus
 
 1. Run the create script:
 
@@ -100,9 +101,12 @@ All relations in the final schema are normalized to **Boyce-Codd Normal Form (BC
 
 ---
 
+
 ## SQL Data Generation Script with Faker library
 
 Python script to generates SQL `INSERT` statements for populating all database tables with realistic sample data.
+
+*some inserts were manually created after, to ensure meaningful query results*
 
 ### Setup
 
